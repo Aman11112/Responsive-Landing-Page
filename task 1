@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Navigation Menu</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the navigation menu */
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding-top: 80px; /* Space for fixed navigation bar */
+            background-color: #f0f4f8;
+            color: #333;
+        }
+
+        /* Fixed navigation bar styling */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #334155; /* Default background */
+            transition: background-color 0.3s ease, box-shadow 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem 0;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Styling for the navigation bar when scrolled */
+        .navbar.scrolled {
+            background-color: #1a202c; /* Darker background on scroll */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Navigation list styling */
+        .nav-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2.5rem; /* Space between menu items */
+        }
+
+        /* Navigation item styling */
+        .nav-item a {
+            color: #cbd5e1; /* Default link color */
+            text-decoration: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 9999px; /* Fully rounded corners */
+            transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            display: block; /* Make the entire padding area clickable */
+        }
+
+        /* Hover effect for navigation items */
+        .nav-item a:hover {
+            background-color: #4a5568; /* Background on hover */
+            color: #e2e8f0; /* Text color on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Active state for navigation items (if needed) */
+        .nav-item a.active {
+            background-color: #2c5282; /* Example active background */
+            color: #ffffff;
+        }
+
+        /* Content section styling to simulate page scrolling */
+        .content-section {
+            min-height: 100vh; /* Ensure enough height for scrolling */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+            background-color: #ffffff;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .content-section:nth-child(even) {
+            background-color: #f7fafc;
+        }
+
+        h2 {
+            color: #2d3748;
+            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        p {
+            max-width: 800px;
+            line-height: 1.6;
+            font-size: 1.125rem;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <ul class="nav-list">
+            <li class="nav-item"><a href="#home">Home</a></li>
+            <li class="nav-item"><a href="#about">About</a></li>
+            <li class="nav-item"><a href="#services">Services</a></li>
+            <li class="nav-item"><a href="#portfolio">Portfolio</a></li>
+            <li class="nav-item"><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Page Content (to enable scrolling) -->
+    <div id="home" class="content-section">
+        <h2>Welcome Home!</h2>
+        <p>This is the first section of your page. Scroll down to see the navigation menu change its appearance.</p>
+    </div>
+
+    <div id="about" class="content-section">
+        <h2>About Us</h2>
+        <p>Learn more about our mission, vision, and values. We are dedicated to providing excellent service and innovative solutions.</p>
+    </div>
+
+    <div id="services" class="content-section">
+        <h2>Our Services</h2>
+        <p>Discover the wide range of services we offer, designed to meet your specific needs and exceed your expectations.</p>
+    </div>
+
+    <div id="portfolio" class="content-section">
+        <h2>Our Portfolio</h2>
+        <p>Explore our past projects and see the quality of our work. We take pride in delivering exceptional results.</p>
+    </div>
+
+    <div id="contact" class="content-section">
+        <h2>Contact Us</h2>
+        <p>Get in touch with us for inquiries, support, or collaborations. We're always here to help!</p>
+    </div>
+
+    <div class="content-section">
+        <h2>Keep Scrolling!</h2>
+        <p>Just a little more content to ensure ample scrolling for demonstration purposes.</p>
+    </div>
+
+    <div class="content-section">
+        <h2>End of Page</h2>
+        <p>You've reached the bottom. Enjoy the interactive navigation menu!</p>
+    </div>
+
+    <script>
+        // Get the navigation bar element
+        const navbar = document.querySelector('.navbar');
+
+        // Function to handle scroll event
+        function handleScroll() {
+            // Check if the page has been scrolled down more than 50 pixels
+            if (window.scrollY > 50) {
+                // Add 'scrolled' class to change its style
+                navbar.classList.add('scrolled');
+            } else {
+                // Remove 'scrolled' class if at the top
+                navbar.classList.remove('scrolled');
+            }
+        }
+
+        // Add scroll event listener to the window
+        window.addEventListener('scroll', handleScroll);
+
+        // Optional: Smooth scroll for internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault(); // Prevent default jump
+
+                // Get the target element based on the href
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+
+                if (targetElement) {
+                    // Smooth scroll to the target element, accounting for fixed header
+                    const headerOffset = navbar.offsetHeight; // Get height of fixed navbar
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.scrollY - headerOffset;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
